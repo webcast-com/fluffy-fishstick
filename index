@@ -1,0 +1,247 @@
+import React, { useState } from "react";
+
+export default function EscortAgencyTemplate() {
+  const [ageVerified, setAgeVerified] = useState(false);
+  const [showProfile, setShowProfile] = useState(null);
+  const [booking, setBooking] = useState({ name: "", email: "", date: "", message: "" });
+  const [subscribed, setSubscribed] = useState(false);
+
+  const profiles = [
+    {
+      id: 1,
+      name: "Ava",
+      tagline: "Sophisticated companion for events",
+      bio: "Friendly, punctual, great conversation. Available for social events and private engagements.",
+      services: ["Dinner companion", "Event attendance", "Travel companion"],
+      image: "/placeholder-profile-ava.jpg",
+    },
+    {
+      id: 2,
+      name: "Maya",
+      tagline: "Warm, witty, worldly",
+      bio: "Experienced in high-end events; attentive and professional.",
+      services: ["City tours", "Corporate events", "Weekend bookings"],
+      image: "/placeholder-profile-maya.jpg",
+    },
+    {
+      id: 3,
+      name: "Lila",
+      tagline: "Adventurous and cultured",
+      bio: "Perfect for travel and nightlife. Loves meeting new people and exploring new places.",
+      services: ["Travel companion", "Nightlife guide", "Weekend trips"],
+      image: "/placeholder-profile-lila.jpg",
+    },
+    {
+      id: 4,
+      name: "Sofia",
+      tagline: "Charming dinner companion",
+      bio: "Sophisticated, graceful, and well-spoken. Ideal for formal dinners and galas.",
+      services: ["Fine dining", "Gala events", "Corporate functions"],
+      image: "/placeholder-profile-sofia.jpg",
+    },
+    {
+      id: 5,
+      name: "Zara",
+      tagline: "Energetic and playful",
+      bio: "Brings positivity and energy to every engagement. Loves concerts and casual outings.",
+      services: ["Concert outings", "Casual meetups", "Day trips"],
+      image: "/placeholder-profile-zara.jpg",
+    }
+  ];
+
+  function handleVerifyAge(yes) {
+    if (yes) setAgeVerified(true);
+    else alert("You must be 18+ (or the legal age in your jurisdiction) to view this site.");
+  }
+
+  function openProfile(id) {
+    setShowProfile(profiles.find((p) => p.id === id));
+  }
+
+  function handleBookingChange(e) {
+    setBooking({ ...booking, [e.target.name]: e.target.value });
+  }
+
+  function submitBooking(e) {
+    e.preventDefault();
+    alert("Booking request submitted. A representative will contact you by email.");
+    setBooking({ name: "", email: "", date: "", message: "" });
+  }
+
+  return (
+    <div className="min-h-screen bg-gray-50 text-gray-900">
+      {/* Age gate */}
+      {!ageVerified && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60">
+          <div className="w-full max-w-xl bg-white rounded-2xl p-8 shadow-2xl">
+            <h2 className="text-2xl font-bold mb-4">Age Verification</h2>
+            <p className="mb-6">You must be 18+ (or the legal age in your jurisdiction) to enter this site.</p>
+            <div className="flex gap-3">
+              <button
+                onClick={() => handleVerifyAge(true)}
+                className="px-4 py-2 rounded-lg bg-emerald-500 text-white font-medium"
+              >
+                I am 18+
+              </button>
+              <button
+                onClick={() => handleVerifyAge(false)}
+                className="px-4 py-2 rounded-lg bg-gray-200"
+              >
+                I am under 18
+              </button>
+            </div>
+            <p className="mt-4 text-sm text-gray-600">By entering you confirm you meet the minimum legal age for adult services in your area.</p>
+          </div>
+        </div>
+      )}
+
+      {/* Header */}
+      <header className="bg-white border-b">
+        <div className="max-w-6xl mx-auto px-6 py-5 flex items-center justify-between">
+          <h1 className="text-xl font-extrabold">Luxe Companions</h1>
+          <nav className="flex gap-4 items-center">
+            <a href="#profiles" className="hover:underline">Profiles</a>
+            <a href="#booking" className="hover:underline">Booking</a>
+            <a href="#about" className="hover:underline">About</a>
+            <a href="#legal" className="text-sm text-gray-500">Terms</a>
+          </nav>
+        </div>
+      </header>
+
+      <main className="max-w-6xl mx-auto px-6 py-12">
+        {/* Hero */}
+        <section className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center mb-12">
+          <div>
+            <p className="text-sm uppercase text-gray-500 mb-2">Professional companionship</p>
+            <h2 className="text-4xl font-bold mb-4">Curated, discreet, and professional</h2>
+            <p className="text-gray-700 mb-6">We connect discerning clients with vetted companions for social events, travel, and private engagements. Safety, privacy, and consent are central to how we operate.</p>
+            <div className="flex gap-3">
+              <a href="#profiles" className="px-5 py-3 rounded-lg bg-black text-white">View Profiles</a>
+              <a href="#booking" className="px-5 py-3 rounded-lg border">Request Booking</a>
+            </div>
+          </div>
+
+          <div className="rounded-xl bg-gradient-to-tr from-pink-50 to-yellow-50 p-6">
+            <div className="h-64 rounded-lg bg-white flex items-center justify-center text-gray-400">Hero image / carousel placeholder</div>
+          </div>
+        </section>
+
+        {/* Profiles */}
+        <section id="profiles" className="mb-12">
+          <h3 className="text-2xl font-semibold mb-4">Featured Companions</h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            {profiles.map((p) => (
+              <article key={p.id} className="bg-white rounded-xl p-4 shadow-sm">
+                <div className="flex gap-4">
+                  <div className="w-28 h-28 rounded-lg bg-gray-100 flex items-center justify-center">Image</div>
+                  <div className="flex-1">
+                    <h4 className="text-lg font-semibold">{p.name}</h4>
+                    <p className="text-sm text-gray-500">{p.tagline}</p>
+                    <p className="mt-2 text-sm text-gray-600">{p.bio}</p>
+                    <div className="mt-3 flex gap-2">
+                      <button onClick={() => openProfile(p.id)} className="px-3 py-1 rounded-md border text-sm">View</button>
+                      <a href="#booking" className="px-3 py-1 rounded-md bg-black text-white text-sm">Request</a>
+                    </div>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        {/* Profile modal */}
+        {showProfile && (
+          <div className="fixed inset-0 z-40 flex items-center justify-center bg-black bg-opacity-60">
+            <div className="w-full max-w-3xl bg-white rounded-2xl p-6">
+              <div className="flex justify-between items-start">
+                <h4 className="text-xl font-bold">{showProfile.name}</h4>
+                <button onClick={() => setShowProfile(null)} className="text-gray-500">Close</button>
+              </div>
+              <p className="mt-3 text-gray-700">{showProfile.bio}</p>
+              <div className="mt-4">
+                <h5 className="font-medium">Services</h5>
+                <ul className="list-disc ml-5 text-sm text-gray-600">
+                  {showProfile.services.map((s) => (
+                    <li key={s}>{s}</li>
+                  ))}
+                </ul>
+              </div>
+              <div className="mt-6 flex justify-end">
+                <a href="#booking" className="px-4 py-2 rounded-lg bg-emerald-500 text-white">Request booking</a>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Booking form */}
+        <section id="booking" className="mb-12">
+          <h3 className="text-2xl font-semibold mb-4">Request a Booking</h3>
+          <form onSubmit={submitBooking} className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-white p-6 rounded-xl shadow-sm">
+            <div>
+              <label className="text-sm">Your name</label>
+              <input name="name" value={booking.name} onChange={handleBookingChange} required className="mt-1 block w-full rounded-md border px-3 py-2" />
+            </div>
+            <div>
+              <label className="text-sm">Email</label>
+              <input name="email" value={booking.email} onChange={handleBookingChange} type="email" required className="mt-1 block w-full rounded-md border px-3 py-2" />
+            </div>
+            <div>
+              <label className="text-sm">Preferred date</label>
+              <input name="date" value={booking.date} onChange={handleBookingChange} type="date" className="mt-1 block w-full rounded-md border px-3 py-2" />
+            </div>
+            <div>
+              <label className="text-sm">Message / Requirements</label>
+              <input name="message" value={booking.message} onChange={handleBookingChange} className="mt-1 block w-full rounded-md border px-3 py-2" />
+            </div>
+            <div className="md:col-span-2 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <input id="consent" type="checkbox" required />
+                <label htmlFor="consent" className="text-sm text-gray-600">I confirm this request is lawful and I will comply with local rules.</label>
+              </div>
+              <button type="submit" className="px-4 py-2 rounded-lg bg-black text-white">Send Request</button>
+            </div>
+          </form>
+        </section>
+
+        {/* About & Safety */}
+        <section id="about" className="mb-12 bg-white p-6 rounded-xl shadow-sm">
+          <h3 className="text-2xl font-semibold">About & Safety</h3>
+          <p className="mt-2 text-gray-700">We prioritize consent, safety, and privacy. All companions are voluntarily participating and are vetted. Clients and companions are expected to follow agreed boundaries. We recommend using the booking form and allowing staff to coordinate details.
+          </p>
+          <ul className="mt-4 list-disc ml-6 text-sm text-gray-600">
+            <li>Age verification in place; all parties must be of legal age.</li>
+            <li>Payments handled through secure, legal payment processors. Do not attempt to hide activity from authorities.</li>
+            <li>We require respectful and lawful behaviour from all clients.</li>
+          </ul>
+        </section>
+
+        {/* Newsletter */}
+        <section className="mb-12 bg-gradient-to-r from-white to-gray-50 p-6 rounded-xl">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+            <div>
+              <h4 className="text-lg font-semibold">Stay in touch</h4>
+              <p className="text-sm text-gray-600">Subscribe for updates and new availability (optional).</p>
+            </div>
+            <div className="flex gap-2">
+              <input type="email" placeholder="you@example.com" className="px-3 py-2 rounded-md border" />
+              <button onClick={() => setSubscribed(true)} className="px-4 py-2 rounded-md bg-black text-white">Subscribe</button>
+            </div>
+          </div>
+          {subscribed && <p className="mt-3 text-sm text-emerald-600">Thanks — you're subscribed.</p>}
+        </section>
+
+        {/* Legal */}
+        <section id="legal" className="text-sm text-gray-600">
+          <h5 className="font-semibold">Legal & Privacy</h5>
+          <p className="mt-2">This site template is provided as an example. Operators must add a full Terms of Service, Privacy Policy, cookie consent, and ensure compliance with local and national regulations regarding adult services. Do not use this template to facilitate illegal activity or to exploit vulnerable people.</p>
+        </section>
+      </main>
+
+      <footer className="border-t bg-white">
+        <div className="max-w-6xl mx-auto px-6 py-6 text-gray-600 text-sm">
+          © {new Date().getFullYear()} Luxe Companions — All rights reserved.
+        </div>
+      </footer>
+    </div>
+  );
+}
